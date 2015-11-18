@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gdpt.database.FXMLDocumentController">
+    <children>
+        <Label fx:id="mainLabel" layoutX="162.0" layoutY="35.0" minHeight="16.0" minWidth="69" text="Welcome to the GDPT Database">
+         <font>
+            <Font size="20.0" />
+         </font></Label>
+      <Accordion layoutX="14.0" />
+      <Label fx:id="subLabel" layoutX="250.0" layoutY="74.0" text="GDPT Chanh Tin" />
+      <MenuBar fx:id="menuBar" prefHeight="29.0" prefWidth="800.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <SplitPane dividerPositions="0.30701754385964913" layoutY="107.0" prefHeight="495.0" prefWidth="800.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <TreeView fx:id="typeTree" prefHeight="493.0" prefWidth="241.0" />
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="493.0" prefWidth="578.0">
+               <children>
+                  <TableView fx:id="nameTable" layoutY="-1.0" prefHeight="317.0" prefWidth="549.0">
+                    <columns>
+                      <TableColumn id="lastNameCol" fx:id="lastNameCol" prefWidth="77.0" text="Last Name" />
+                      <TableColumn id="firstNameCol" fx:id="firstNameCol" text="First Name" />
+                        <TableColumn id="englishNameCol" fx:id="englishNameCol" prefWidth="101.0" text="English Name" />
+                        <TableColumn id="contactCol" fx:id="contactCol" prefWidth="64.0" text="Contact " />
+                        <TableColumn id="phapDanhCol" fx:id="phapDanhCol" prefWidth="109.0" text="Phap Danh" />
+                    </columns>
+                  </TableView>
+                  <HBox layoutX="34.0" layoutY="421.0" prefHeight="50.0" prefWidth="500.0" spacing="20.0">
+                     <children>
+                        <Button mnemonicParsing="false" text="Edit Member" />
+                          <Button fx:id="addMemberButton" onAction="#onAddMember" text="Add Member" />
+                        <Button mnemonicParsing="false" text="Remove Member" />
+                        <Button fx:id="exportListButton" mnemonicParsing="false" onAction="#onExportList" text="Export List" />
+                     </children>
+                     <padding>
+                        <Insets left="10.0" top="10.0" />
+                     </padding>
+                  </HBox>
+                  <HBox layoutX="13.0" layoutY="363.0" prefHeight="50.0" prefWidth="529.0" spacing="10.0">
+                     <children>
+                        <TextField fx:id="searchText" prefHeight="27.0" prefWidth="231.0" />
+                        <ChoiceBox fx:id="searchType" prefWidth="150.0" />
+                        <Button fx:id="searchButton" mnemonicParsing="false" onAction="#onSearch" text="Search" />
+                        <Button mnemonicParsing="false" text="Clear" />
+                     </children>
+                     <padding>
+                        <Insets top="10.0" />
+                     </padding>
+                  </HBox>
+                  <Button layoutX="209.0" layoutY="328.0" mnemonicParsing="false" text="View Member" />
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+      <ToggleButton fx:id="languageToggle" layoutX="651.0" layoutY="59.0" mnemonicParsing="false" text="English" />
+      <ImageView id="HoaSen" fitHeight="73.0" fitWidth="84.0" layoutX="35.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../img/hoasen-3d.png" />
+         </image>
+      </ImageView>
+    </children>
+</AnchorPane>
