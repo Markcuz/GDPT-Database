@@ -9,7 +9,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gdpt.database.FXMLDocumentController">
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GdptDatabase.UI.MainController">
     <children>
         <Label fx:id="mainLabel" layoutX="162.0" layoutY="35.0" minHeight="16.0" minWidth="69" text="Welcome to the GDPT Database">
          <font>
@@ -84,7 +84,7 @@
       <ToggleButton fx:id="languageToggle" layoutX="651.0" layoutY="59.0" mnemonicParsing="false" text="English" />
       <ImageView id="HoaSen" fitHeight="73.0" fitWidth="84.0" layoutX="35.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../img/hoasen-3d.png" />
+            <Image url="@../Resources/hoasen-3d.png" />
          </image>
       </ImageView>
     </children>

@@ -6,32 +6,32 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="gdpt.database.FXMLDocumentController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GdptDatabase.UI.MainController">
     <children>
       <Button fx:id="finishAddMemberButton" layoutX="456.0" layoutY="346.0" mnemonicParsing="false" onAction="#onFinishAddMember" text="Add Member" />
       <Label layoutX="209.0" layoutY="14.0" text="Add New Member" />
       <Label layoutX="28.0" layoutY="62.0" text="First Name" />
-      <TextField layoutX="126.0" layoutY="57.0" />
+      <TextField fx:id="addFirstName" layoutX="126.0" layoutY="57.0" promptText="First Name" />
       <Label layoutX="303.0" layoutY="62.0" text="Last Name" />
-      <TextField layoutX="386.0" layoutY="57.0" />
+      <TextField fx:id="addLastName" layoutX="386.0" layoutY="57.0" />
       <Label layoutX="28.0" layoutY="100.0" text="English Name" />
-      <TextField layoutX="126.0" layoutY="95.0" />
+      <TextField fx:id="addEnglishName" layoutX="126.0" layoutY="95.0" />
       <Label layoutX="303.0" layoutY="100.0" text="Phap Danh" />
-      <TextField layoutX="387.0" layoutY="95.0" />
+      <TextField fx:id="addPhapDanh" layoutX="387.0" layoutY="95.0" />
       <Label layoutX="28.0" layoutY="136.0" text="Address" />
-      <TextField layoutX="126.0" layoutY="132.0" prefHeight="27.0" prefWidth="430.0" />
+      <TextField fx:id="addAddress" layoutX="126.0" layoutY="132.0" prefHeight="27.0" prefWidth="430.0" />
       <Label layoutX="29.0" layoutY="174.0" text="DOB" />
       <Label layoutX="306.0" layoutY="174.0" text="Ph. No." />
-      <TextField layoutX="388.0" layoutY="169.0" />
+      <TextField fx:id="addPhone" layoutX="388.0" layoutY="169.0" />
       <Label layoutX="32.0" layoutY="307.0" text="Viet Ngu" />
       <ChoiceBox layoutX="126.0" layoutY="302.0" prefHeight="27.0" prefWidth="167.0" />
       <Label layoutX="315.0" layoutY="307.0" text="Phat Phap" />
       <ChoiceBox layoutX="386.0" layoutY="302.0" prefHeight="27.0" prefWidth="167.0" />
       <Label layoutX="29.0" layoutY="209.0" text="School" />
-      <DatePicker layoutX="126.0" layoutY="169.0" prefHeight="27.0" prefWidth="167.0" />
-      <TextField layoutX="126.0" layoutY="205.0" />
+      <DatePicker fx:id="addDOB" layoutX="126.0" layoutY="169.0" prefHeight="27.0" prefWidth="167.0" />
+      <TextField fx:id="addSchool" layoutX="126.0" layoutY="205.0" />
       <Label layoutX="306.0" layoutY="209.0" text="Year/Course" />
-      <TextField layoutX="389.0" layoutY="204.0" />
+      <TextField fx:id="addYear" layoutX="389.0" layoutY="204.0" />
       <Label layoutX="33.0" layoutY="264.0" text="Doan" />
       <ChoiceBox layoutX="126.0" layoutY="259.0" prefHeight="27.0" prefWidth="167.0" />
       <Label layoutX="32.0" layoutY="351.0" text="Status" />

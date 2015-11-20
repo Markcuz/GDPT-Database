@@ -3,10 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package gdpt.database;
+package GdptDatabase.UI;
 
+import GdptDatabase.Data.Groups.Doan;
+import GdptDatabase.Data.Member;
+import GdptDatabase.Data.MemberEntry;
+import GdptDatabase.Data.Groups.PPClass;
+import GdptDatabase.Data.Groups.Status;
+import GdptDatabase.Data.Groups.VNClass;
 import java.io.IOException;
 import java.net.URL;
+import java.util.LinkedList;
 import java.util.ResourceBundle;
 import javafx.beans.InvalidationListener;
 import javafx.beans.value.ChangeListener;
@@ -16,7 +23,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
@@ -29,93 +35,7 @@ import javafx.stage.Stage;
  *
  * @author Markcuz
  */
-public class FXMLDocumentController implements Initializable {
-    
-    public enum Doan {
-        OVNam, OVNu, TNam, TNu, NThanh, Htr
-    }
-
-    public enum VNClass {
-        lop1, lop2, lop3, lop4, lop5, NONE
-    }
-
-    public enum PPClass {
-        senNon, moMat, canhMem, chanCung, tungBay, huongThien, soThien, trungThien, chanhThien, bacHoa, bacTruc, bacKien, bacTri, bacDinh, bacLuc, NONE
-    }   
-
-    public enum Status {
-        Active, Probation, NonActive
-    }
-
-    public class Member {
-        private final String firstName;
-        private final String lastName;
-        private final String englishName;
-        private final String phapDanh;
-        private final String address;
-        private final String phoneNumber;
-        private final String DOB;
-        private final Doan nganh;
-        private final VNClass vn;
-        private final PPClass pp;
-        private final String school;
-        private final String year;
-        private final Status status;  
-
-        public Member(String fName, String lName, String eName, String phapDanh, String add, String ph, String dob, Doan doan, VNClass vn, PPClass pp, String school, String year, Status stat) {
-            this.firstName = fName;
-            this.lastName = lName;
-            this.englishName = eName;
-            this.phapDanh = phapDanh;
-            this.address = add;
-            this.phoneNumber = ph;
-            this.DOB = dob;
-            this.nganh = doan;
-            this.vn = vn;
-            this.pp = pp;
-            this.school = school;
-            this.year = year;
-            this.status = stat;
-        }
-    }
-    
-    public class MemberEntry {
-        private SimpleStringProperty firstName = new SimpleStringProperty();
-        private SimpleStringProperty lastName = new SimpleStringProperty();
-        private SimpleStringProperty englishName = new SimpleStringProperty();
-        private SimpleStringProperty phapDanh = new SimpleStringProperty();
-        private SimpleStringProperty contact = new SimpleStringProperty();
-        
-        
-        public MemberEntry(String fName, String lName, String eName, String pDanh, String cont) { 
-            this.firstName.set(fName);
-            this.lastName.set(lName);
-            this.englishName.set(eName);
-            this.phapDanh.set(pDanh);
-            this.contact.set(cont);
-            
-        }
-        
-        public String getFirstName() {
-            return firstName.get();
-        }
-        
-        public String getLastName() {
-            return lastName.get();
-        }
-        
-        public String getEnglishName() {
-            return englishName.get();
-        }
-        
-        public String getPhapDanh() {
-            return phapDanh.get();
-        }
-        
-        public String getContact() {
-            return contact.get();
-        }
-    }
+public class MainController implements Initializable {
     
    //the buttons
     @FXML
@@ -141,13 +61,11 @@ public class FXMLDocumentController implements Initializable {
     
     //the choicebox
     @FXML
-    ChoiceBox<String> searchType;
+    ChoiceBox searchType;
     
     //the type list
     @FXML
     TreeView<String> typeTree;
-    
-    ObservableList<MemberEntry> data;
     
     //the table
     @FXML
@@ -162,20 +80,53 @@ public class FXMLDocumentController implements Initializable {
     TableColumn englishNameCol;
     @FXML
     TableColumn contactCol;
+    
+    //in AddMember
+    @FXML
+    Button finishAddMemberButton;
+    
+    @FXML
+    TextField addFirstName;
+    @FXML
+    TextField addLastName;
+    @FXML
+    TextField addEnglishName;
+    @FXML
+    TextField addPhapDanh;
+    @FXML
+    TextField addAddress;
+
+    @FXML
+    TextField addPhone;
+    @FXML
+    TextField addSchool;
+    @FXML
+    TextField addYear;
+    @FXML
+    DatePicker addDOB;
+    @FXML
+    ChoiceBox addVietNgu;
+    @FXML
+    ChoiceBox addPhatPhap;
+    @FXML
+    ChoiceBox addDoan;
+    @FXML
+    ChoiceBox addStatus;
+
+    //standard variable
+    ObservableList<MemberEntry> tableList;
+    
+    //LinkedList<Member> allList;
 
     @Override
     public void initialize(URL url, ResourceBundle rb)  {
-            setupSearchType();
-            setupTypeTree();
-            loadCSV();
-            setupTable();
     } 
     
     public void onAddMember(ActionEvent event) {
         System.out.println("Add pressed!");
+        
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("FXMLNewMember.fxml"));
-           
+            Parent root = FXMLLoader.load(getClass().getResource("AddMember.fxml"));
             Stage stage = new Stage();
             Scene scene = new Scene(root);
             stage.setScene(scene);
@@ -184,46 +135,61 @@ public class FXMLDocumentController implements Initializable {
             stage.show();
         }
         catch (IOException e) {
-            System.out.println("Add pressed2!");
+            System.out.println("IO Exception!");
             e.printStackTrace();
         }
         
+        //String value = typeTree.getSelectionModel().getSelectedItem().getValue();
+        //System.out.println(value);
         
+        //addDoan.getItems().clear();
+        //bv    l,cdaddDoan.getItems().addAll(Doan.values());
         /*
-        String value = typeTree.getSelectionModel().getSelectedItem().toString();
-        System.out.println(value);
+        addVietNgu.getItems().clear();
+        addVietNgu.getItems().addAll(VNClass.values());
         
-        Member me = new Member("Duy Khang", "Pham", "Marcus", "Van Tan", "4 Hannans Street Morley", "0401321785", "030491", Doan.Htr, VNClass.NONE, PPClass.bacDinh, "UWA", "EECE", Status.Active);
+        addPhatPhap.getItems().clear();
+        addPhatPhap.getItems().addAll(PPClass.values());
         
-        MemberEntry meEntry = new MemberEntry(me.firstName, me.lastName, me.englishName, me.phapDanh, me.phoneNumber);
-        data.add(meEntry);
-        System.out.println(me.firstName);*/
+        addDoan.getItems().clear();
+        addDoan.getItems().addAll(Status.values());
+        */
+       // Member me = new Member(addFirstName.getText(), addLastName.getText(), addEnglishName.getText(), addPhapDanh.getText(), addAddress.getText(), addPhone.getText(), addDOB.toString(), (Doan)addDoan.getValue(), (VNClass)addVietNgu.getValue(), (PPClass)addPhatPhap.getValue(), addSchool.getText(), addYear.getText(), (Status)addStatus.getValue());
+        
+        //MemberEntry meEntry = new MemberEntry(me.firstName, me.lastName, me.englishName, me.phapDanh, me.phoneNumber,0);
+        
+        //tableList.add(meEntry);
+        
+        //System.out.println(me.firstName);
+        
     }
-    
-    @FXML
-    Button finishAddMemberButton;
         
-    public void onFinishAddMember(ActionEvent event) {
+    public void onFinishAddMember(ActionEvent event) throws IOException {
         Stage stage = (Stage) finishAddMemberButton.getScene().getWindow();
         stage.close();
-        
-        System.out.println("Add pressed!");
-    } 
-
+        System.out.println("root registered");
+    }
+    
     public void onExportList(ActionEvent event) {
         System.out.println("Export pressed!");
     }
     
     public void onSearch(ActionEvent event) {
-        System.out.println("Search pressed!");
+        /*System.out.println("Search pressed!");
         String type = searchType.getValue();
-        System.out.println(type);
+        System.out.println(type);*/
     }   
     
     public void setupSearchType() {
+        /*
         searchType.getItems().clear();
         searchType.getItems().addAll("First Name", "Last Name", "Phap Danh");
         searchType.setValue("First Name");
+        */
+        searchType.getItems().clear();
+        searchType.getItems().addAll(Doan.values());
+        
+        
     }
     
     /**
@@ -294,6 +260,7 @@ public class FXMLDocumentController implements Initializable {
     }
     
     public void loadCSV() {
+       // allList.clear();
         
     }
     
@@ -305,8 +272,8 @@ public class FXMLDocumentController implements Initializable {
         phapDanhCol.setCellValueFactory(new PropertyValueFactory<MemberEntry, String>("phapDanh"));
         contactCol.setCellValueFactory(new PropertyValueFactory<MemberEntry, String>("contact"));
         
-        data = FXCollections.observableArrayList();
-        nameTable.setItems(data);
+        tableList = FXCollections.observableArrayList();
+        nameTable.setItems(tableList);
         
     }
     

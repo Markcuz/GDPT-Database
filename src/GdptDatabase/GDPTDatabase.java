@@ -3,12 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package gdpt.database;
+package GdptDatabase;
 
+import GdptDatabase.UI.MainController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /**
@@ -19,11 +20,17 @@ public class GDPTDatabase extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("UI/MainUI.fxml"));
+
+        stage.setScene(new Scene((Pane)loader.load()));
         
-        Scene scene = new Scene(root);
+        MainController controller = loader.getController();
         
-        stage.setScene(scene);
+        controller.setupSearchType();
+        controller.setupTypeTree();
+        controller.loadCSV();
+        controller.setupTable();
+        
         stage.setTitle("GDPT Database");
         stage.show();
     }
