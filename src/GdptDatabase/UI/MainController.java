@@ -6,11 +6,15 @@
 package GdptDatabase.UI;
 
 import GdptDatabase.Data.Groups.Doan;
+import static GdptDatabase.Data.Groups.Doan.NThanh;
 import GdptDatabase.Data.Member;
 import GdptDatabase.Data.MemberEntry;
 import GdptDatabase.Data.Groups.PPClass;
+import static GdptDatabase.Data.Groups.PPClass.bacDinh;
 import GdptDatabase.Data.Groups.Status;
+import static GdptDatabase.Data.Groups.Status.Active;
 import GdptDatabase.Data.Groups.VNClass;
+import static GdptDatabase.Data.Groups.VNClass.lop1;
 import java.io.IOException;
 import java.net.URL;
 import java.util.LinkedList;
@@ -28,6 +32,8 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -61,7 +67,7 @@ public class MainController implements Initializable {
     
     //the choicebox
     @FXML
-    ChoiceBox searchType;
+    ChoiceBox<Doan> searchType;
     
     //the type list
     @FXML
@@ -80,38 +86,6 @@ public class MainController implements Initializable {
     TableColumn englishNameCol;
     @FXML
     TableColumn contactCol;
-    
-    //in AddMember
-    @FXML
-    Button finishAddMemberButton;
-    
-    @FXML
-    TextField addFirstName;
-    @FXML
-    TextField addLastName;
-    @FXML
-    TextField addEnglishName;
-    @FXML
-    TextField addPhapDanh;
-    @FXML
-    TextField addAddress;
-
-    @FXML
-    TextField addPhone;
-    @FXML
-    TextField addSchool;
-    @FXML
-    TextField addYear;
-    @FXML
-    DatePicker addDOB;
-    @FXML
-    ChoiceBox addVietNgu;
-    @FXML
-    ChoiceBox addPhatPhap;
-    @FXML
-    ChoiceBox addDoan;
-    @FXML
-    ChoiceBox addStatus;
 
     //standard variable
     ObservableList<MemberEntry> tableList;
@@ -122,55 +96,46 @@ public class MainController implements Initializable {
     public void initialize(URL url, ResourceBundle rb)  {
     } 
     
-    public void onAddMember(ActionEvent event) {
+    @FXML
+    public void onAddMember(ActionEvent event) throws Exception{
         System.out.println("Add pressed!");
         
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("AddMember.fxml"));
-            Stage stage = new Stage();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setTitle("Add New Member");
-            stage.show();
-        }
-        catch (IOException e) {
-            System.out.println("IO Exception!");
-            e.printStackTrace();
-        }
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("AddMember.fxml"));
+
+        Pane pane = (Pane)loader.load();
+        
+        AddMemberController controller = loader.getController();
+        controller.setMainWindow(this);
+        
+        Stage stage = new Stage();
+        
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(addMemberButton.getScene().getWindow());
+        
+        Scene scene = new Scene(pane);
+        
+        stage.setScene(scene);
+        stage.setTitle("AddMember");
+        stage.show();
         
         //String value = typeTree.getSelectionModel().getSelectedItem().getValue();
         //System.out.println(value);
-        
-        //addDoan.getItems().clear();
-        //bv    l,cdaddDoan.getItems().addAll(Doan.values());
-        /*
-        addVietNgu.getItems().clear();
-        addVietNgu.getItems().addAll(VNClass.values());
-        
-        addPhatPhap.getItems().clear();
-        addPhatPhap.getItems().addAll(PPClass.values());
-        
-        addDoan.getItems().clear();
-        addDoan.getItems().addAll(Status.values());
-        */
-       // Member me = new Member(addFirstName.getText(), addLastName.getText(), addEnglishName.getText(), addPhapDanh.getText(), addAddress.getText(), addPhone.getText(), addDOB.toString(), (Doan)addDoan.getValue(), (VNClass)addVietNgu.getValue(), (PPClass)addPhatPhap.getValue(), addSchool.getText(), addYear.getText(), (Status)addStatus.getValue());
-        
-        //MemberEntry meEntry = new MemberEntry(me.firstName, me.lastName, me.englishName, me.phapDanh, me.phoneNumber,0);
-        
-        //tableList.add(meEntry);
-        
-        //System.out.println(me.firstName);
-        
-    }
-        
-    public void onFinishAddMember(ActionEvent event) throws IOException {
-        Stage stage = (Stage) finishAddMemberButton.getScene().getWindow();
-        stage.close();
-        System.out.println("root registered");
+ 
     }
     
+    @FXML
+    public void addNewMember(Member member) {       
+        MemberEntry meEntry = new MemberEntry((String)member.firstName, (String)member.lastName, (String)member.englishName, (String)member.phapDanh, (String)member.phoneNumber, 0);
+        tableList.add(meEntry); 
+    } 
+    
     public void onExportList(ActionEvent event) {
+        
+        
+        MemberEntry meEntry = new MemberEntry("hi", "hello", "chao", "yo", "wassup",0);
+        
+        tableList.add(meEntry); 
+        
         System.out.println("Export pressed!");
     }
     
@@ -188,8 +153,6 @@ public class MainController implements Initializable {
         */
         searchType.getItems().clear();
         searchType.getItems().addAll(Doan.values());
-        
-        
     }
     
     /**
@@ -263,7 +226,7 @@ public class MainController implements Initializable {
        // allList.clear();
         
     }
-    
+        
     public void setupTable() {
       
         firstNameCol.setCellValueFactory(new PropertyValueFactory<MemberEntry, String>("firstName"));
