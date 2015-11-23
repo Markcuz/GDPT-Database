@@ -28,8 +28,8 @@ public class GDPTDatabase extends Application {
         
         controller.setupSearchType();
         controller.setupTypeTree();
-        controller.loadCSV();
         controller.setupTable();
+        controller.loadCSV();
         
         stage.setTitle("GDPT Database");
         stage.show();

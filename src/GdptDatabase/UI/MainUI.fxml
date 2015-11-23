@@ -19,21 +19,31 @@
       <Label fx:id="subLabel" layoutX="250.0" layoutY="74.0" text="GDPT Chanh Tin" />
       <MenuBar fx:id="menuBar" prefHeight="29.0" prefWidth="800.0">
         <menus>
-          <Menu mnemonicParsing="false" text="File">
+            <Menu text="File">
             <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
+               <MenuItem text="New" />
+               <MenuItem text="Open" />
+               <MenuItem text="Save" />
+               <MenuItem text="Save As" />
+               <SeparatorMenuItem />
+               <MenuItem text="Exit" />
             </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
+         </Menu>
+         <Menu text="Edit">
             <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
+               <MenuItem text="Copy" />
+               <MenuItem text="Cut" />
+               <MenuItem text="Paste" />
             </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Help">
+         </Menu>
+         <Menu text="Help">
             <items>
-              <MenuItem mnemonicParsing="false" text="About" />
+               <MenuItem disable="true" text="Search" />
+               <MenuItem text="Online Manual" visible="false" />
+               <SeparatorMenuItem />
+               <MenuItem text="About" />
             </items>
-          </Menu>
+         </Menu>
         </menus>
       </MenuBar>
       <SplitPane dividerPositions="0.30701754385964913" layoutY="107.0" prefHeight="495.0" prefWidth="800.0">
@@ -50,8 +60,8 @@
                       <TableColumn id="lastNameCol" fx:id="lastNameCol" prefWidth="77.0" text="Last Name" />
                       <TableColumn id="firstNameCol" fx:id="firstNameCol" text="First Name" />
                         <TableColumn id="englishNameCol" fx:id="englishNameCol" prefWidth="101.0" text="English Name" />
-                        <TableColumn id="contactCol" fx:id="contactCol" prefWidth="64.0" text="Contact " />
-                        <TableColumn id="phapDanhCol" fx:id="phapDanhCol" prefWidth="109.0" text="Phap Danh" />
+                        <TableColumn id="contactCol" fx:id="contactCol" prefWidth="102.0" text="Contact " />
+                        <TableColumn id="phapDanhCol" fx:id="phapDanhCol" prefWidth="88.0" text="Phap Danh" />
                     </columns>
                   </TableView>
                   <HBox layoutX="34.0" layoutY="421.0" prefHeight="50.0" prefWidth="500.0" spacing="20.0">

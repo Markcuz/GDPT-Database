@@ -11,8 +11,11 @@ package GdptDatabase.Data;
  */
 public class Groups {
     public enum Doan {
-        OVNam("OV Nam"), OVNu("OV Nu"), TNam("Thieu Nam"), TNu("Thieu Nu"), NThanh("Nganh Thanh"), Htr("Huynh Truong");
+        //OVNam("OV Nam"), OVNu("OV Nu"), TNam("Thieu Nam"), TNu("Thieu Nu"), NThanh("Nganh Thanh"), Htr("Huynh Truong");
         
+        OVNam, OVNu, TNam, TNu, NThanh, Htr
+        
+        /*
         public String label;
 
         Doan(String label) {
@@ -23,6 +26,7 @@ public class Groups {
         public String toString() {
             return label;
         }
+*/
     }
 
     public enum VNClass {

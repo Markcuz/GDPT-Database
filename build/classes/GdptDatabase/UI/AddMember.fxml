@@ -37,7 +37,7 @@
       <Label layoutX="32.0" layoutY="351.0" text="Status" />
       <ChoiceBox fx:id="addStatus" layoutX="126.0" layoutY="346.0" prefHeight="27.0" prefWidth="167.0" />
       <Label layoutX="316.0" layoutY="264.0" text="Image" />
-      <Hyperlink layoutX="389.0" layoutY="260.0" text="Hyperlink" />
       <Button layoutX="386.0" layoutY="346.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="53.0" text="More" />
+      <Button fx:id="addImage" layoutX="389.0" layoutY="259.0" mnemonicParsing="false" onAction="#onAddImage" text="Choose Image" />
    </children>
 </AnchorPane>

@@ -6,20 +6,18 @@
 package GdptDatabase.UI;
 
 import GdptDatabase.Data.Groups.Doan;
-import static GdptDatabase.Data.Groups.Doan.NThanh;
 import GdptDatabase.Data.Member;
 import GdptDatabase.Data.MemberEntry;
 import GdptDatabase.Data.Groups.PPClass;
-import static GdptDatabase.Data.Groups.PPClass.bacDinh;
 import GdptDatabase.Data.Groups.Status;
-import static GdptDatabase.Data.Groups.Status.Active;
 import GdptDatabase.Data.Groups.VNClass;
-import static GdptDatabase.Data.Groups.VNClass.lop1;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
-import javafx.beans.InvalidationListener;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -30,10 +28,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -67,7 +65,12 @@ public class MainController implements Initializable {
     
     //the choicebox
     @FXML
-    ChoiceBox<Doan> searchType;
+    ChoiceBox<String> searchType;
+    
+    
+    @FXML
+    MenuBar menuBar;
+    
     
     //the type list
     @FXML
@@ -90,13 +93,86 @@ public class MainController implements Initializable {
     //standard variable
     ObservableList<MemberEntry> tableList;
     
-    //LinkedList<Member> allList;
+    LinkedList<Member> allList;
 
     @Override
     public void initialize(URL url, ResourceBundle rb)  {
+        // Listen for Slider value changes
+        typeTree.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+
+            @Override
+            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+                String value = typeTree.getSelectionModel().getSelectedItem().getValue();
+                    System.out.println(value);
+                    
+                     
+                    if (value.equals("All")) {
+                        tableList.clear();
+                        for(int i =0; i<allList.size(); i++) {
+                            addNewMember(allList.get(i));
+                        }
+                    }
+                     
+                     else if(value.equals("Huynh Truong")) {
+                        tableList.clear();
+                        for(int i =0; i<allList.size(); i++) {
+                            if(allList.get(i).nganh == Doan.Htr) {
+                                addNewMember(allList.get(i));
+                            }
+                        }
+                    }
+                    
+                    else if(value.equals("Nganh Thanh")) {
+                        tableList.clear();
+                        for(int i =0; i<allList.size(); i++) {
+                            if(allList.get(i).nganh == Doan.NThanh) {
+                                addNewMember(allList.get(i));
+                            }
+                        }
+                    }
+                    
+                    else if(value.equals("Thieu Nam")) {
+                        tableList.clear();
+                        for(int i =0; i<allList.size(); i++) {
+                            if(allList.get(i).nganh == Doan.TNam) {
+                                addNewMember(allList.get(i));
+                            }
+                        }
+                    }
+                    
+                    else if(value.equals("Thieu Nu")) {
+                        tableList.clear();
+                        for(int i =0; i<allList.size(); i++) {
+                            if(allList.get(i).nganh == Doan.TNu) {
+                                addNewMember(allList.get(i));
+                            }
+                        }
+                    }
+                    
+                    else if(value.equals("OV Nam")) {
+                        tableList.clear();
+                        for(int i =0; i<allList.size(); i++) {
+                            if(allList.get(i).nganh == Doan.OVNam) {
+                                addNewMember(allList.get(i));
+                            }
+                        }
+                    }
+                    
+                    else if(value.equals("OV Nu")) {
+                        tableList.clear();
+                        for(int i =0; i<allList.size(); i++) {
+                            if(allList.get(i).nganh == Doan.OVNu) {
+                                addNewMember(allList.get(i));
+                            }
+                        }
+                    }
+                    
+                    
+                   
+            }
+        });
     } 
     
-    @FXML
     public void onAddMember(ActionEvent event) throws Exception{
         System.out.println("Add pressed!");
         
@@ -117,42 +193,54 @@ public class MainController implements Initializable {
         stage.setScene(scene);
         stage.setTitle("AddMember");
         stage.show();
-        
-        //String value = typeTree.getSelectionModel().getSelectedItem().getValue();
-        //System.out.println(value);
  
     }
     
-    @FXML
     public void addNewMember(Member member) {       
         MemberEntry meEntry = new MemberEntry((String)member.firstName, (String)member.lastName, (String)member.englishName, (String)member.phapDanh, (String)member.phoneNumber, 0);
         tableList.add(meEntry); 
     } 
     
-    public void onExportList(ActionEvent event) {
+    
+    private void onCopyCSV(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        File file;
+    
+        file = fileChooser.showOpenDialog(new Stage());
+        String currentDirectory;
+        File fileTest = new File(".");
+	currentDirectory = fileTest.getAbsolutePath();
+	System.out.println("Current working directory : "+currentDirectory);
+                
+        //Files.copy(source, target, REPLACE_EXISTING);
+    }
+    
+    
+    public void onExportList(ActionEvent event) throws IOException {
+       
+        File folder;
+        File file = new File("members.csv");
+        DirectoryChooser dChooser = new DirectoryChooser();
         
-        
-        MemberEntry meEntry = new MemberEntry("hi", "hello", "chao", "yo", "wassup",0);
-        
-        tableList.add(meEntry); 
+        folder = dChooser.showDialog(new Stage());
+                
+        /*if (file != null && folder != null  && folder.isDirectory()) {
+            Files.copy(file.toPath(), folder.toPath(), REPLACE_EXISTING);
+        }*/
         
         System.out.println("Export pressed!");
     }
     
-    public void onSearch(ActionEvent event) {
-        /*System.out.println("Search pressed!");
+    public void onSearch(ActionEvent event) {  
+        System.out.println("Search pressed!");
         String type = searchType.getValue();
-        System.out.println(type);*/
+        System.out.println(type);  
     }   
     
     public void setupSearchType() {
-        /*
         searchType.getItems().clear();
         searchType.getItems().addAll("First Name", "Last Name", "Phap Danh");
         searchType.setValue("First Name");
-        */
-        searchType.getItems().clear();
-        searchType.getItems().addAll(Doan.values());
     }
     
     /**
@@ -218,37 +306,42 @@ public class MainController implements Initializable {
         rootItem.getChildren().add(PPItem);
         
         typeTree.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        typeTree.getSelectionModel().selectFirst();
-       // typeTree.getSelectionModel().selectedItemProperty().addListener((InvalidationListener) typeTreeSelected);
+        //typeTree.getSelectionModel().selectFirst();
     }
     
-    public void loadCSV() {
-       // allList.clear();
-        
+    
+    public void loadCSV() throws IOException{
+        allList = new LinkedList<>();
+       
+        File file = new File("members.csv");
+        try (FileReader fr = new FileReader(file)) {
+            BufferedReader br = new BufferedReader(fr);
+            String line;
+            
+            while((line = br.readLine()) != null) {
+                String[] split = line.split(",");
+                
+                Member member = new Member(split[0], split[1], split[2], split[3], split[4], split[5], split[6], (Doan)Doan.valueOf(split[7]), (VNClass)VNClass.valueOf(split[8]), (PPClass)PPClass.valueOf(split[9]), split[10], split[11], (Status)Status.valueOf(split[12]));
+                
+                allList.add(member);
+                
+                addNewMember(member);
+                
+                System.out.println(line);
+            }
+        } 
     }
         
     public void setupTable() {
       
-        firstNameCol.setCellValueFactory(new PropertyValueFactory<MemberEntry, String>("firstName"));
-        lastNameCol.setCellValueFactory(new PropertyValueFactory<MemberEntry, String>("lastName"));
-        englishNameCol.setCellValueFactory(new PropertyValueFactory<MemberEntry, String>("englishName"));
-        phapDanhCol.setCellValueFactory(new PropertyValueFactory<MemberEntry, String>("phapDanh"));
-        contactCol.setCellValueFactory(new PropertyValueFactory<MemberEntry, String>("contact"));
+        firstNameCol.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+        lastNameCol.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+        englishNameCol.setCellValueFactory(new PropertyValueFactory<>("englishName"));
+        phapDanhCol.setCellValueFactory(new PropertyValueFactory<>("phapDanh"));
+        contactCol.setCellValueFactory(new PropertyValueFactory<>("contact"));
         
         tableList = FXCollections.observableArrayList();
-        nameTable.setItems(tableList);
-        
+        nameTable.setItems(tableList);   
     }
-    
-    /*
-    private final ChangeListener<String> typeTreeSelected = new ChangeListener<String>() {
-        @Override
-        public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            //change table
-        }
-        
-    };
-*/
     
 }
