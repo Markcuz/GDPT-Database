@@ -93,15 +93,23 @@ public class AddMemberController implements Initializable{
                 addSchool.getText(), addYear.getText(), (Status)addStatus.getValue());
         
         String member = addFirstName.getText() +  "," + addLastName.getText() + "," +  addEnglishName.getText() + "," + addPhapDanh.getText()
-                + "," + addAddress.getText().toString() + "," + addPhone.getText() + "," + addDOB.getValue().toString() + "," + addDoan.getValue().toString()
-                + "," + addVietNgu.getValue().toString() + "," + addPhatPhap.getValue().toString() + "," + addSchool.getText() + "," + addYear.getText()
-                + "," + addStatus.getValue().toString();
+                + "," + addAddress.getText() + "," + addPhone.getText() + "," + addDOB.getValue().toString() + "," + addDoan.getValue().toType()
+                + "," + addVietNgu.getValue().toType() + "," + addPhatPhap.getValue().toType() + "," + addSchool.getText() + "," + addYear.getText()
+                + "," + addStatus.getValue().toType();
         
         BufferedWriter bw;
+        BufferedReader br;
         bw = new BufferedWriter(new FileWriter("members.csv", true));
+        br = new BufferedReader(new FileReader("members.csv"));
         
-        bw.write(member);
-        bw.newLine();
+        if(br.readLine() == null) {
+            bw.write(member);
+        }
+        else {
+            bw.newLine();
+            bw.write(member);
+        }
+        
         bw.flush();
         
         Stage stage = (Stage) finishAddMemberButton.getScene().getWindow();

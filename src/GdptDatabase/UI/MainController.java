@@ -12,10 +12,14 @@ import GdptDatabase.Data.Groups.PPClass;
 import GdptDatabase.Data.Groups.Status;
 import GdptDatabase.Data.Groups.VNClass;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
@@ -93,82 +97,67 @@ public class MainController implements Initializable {
     //standard variable
     ObservableList<MemberEntry> tableList;
     
-    LinkedList<Member> allList;
+    LinkedList<Member> allList = new LinkedList<>();
+    LinkedList<Member> currentList = new LinkedList<>();
 
     @Override
     public void initialize(URL url, ResourceBundle rb)  {
-        // Listen for Slider value changes
         typeTree.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
 
             @Override
             public void changed(ObservableValue observable, Object oldValue, Object newValue) {
                 String value = typeTree.getSelectionModel().getSelectedItem().getValue();
                     System.out.println(value);
-                    
-                     
+
                     if (value.equals("All")) {
                         tableList.clear();
+                        currentList.clear();
                         for(int i =0; i<allList.size(); i++) {
+                            currentList.add(allList.get(i));
                             addNewMember(allList.get(i));
                         }
                     }
                      
-                     else if(value.equals("Huynh Truong")) {
-                        tableList.clear();
-                        for(int i =0; i<allList.size(); i++) {
-                            if(allList.get(i).nganh == Doan.Htr) {
-                                addNewMember(allList.get(i));
+                    else {                     
+                        for (Doan value1 : Doan.values()) {
+                            if (value.equals(value1.toString())) {
+                                tableList.clear();
+                                currentList.clear();
+                                for (int j = 0; j<allList.size(); j++) {
+                                    if (allList.get(j).nganh == value1) {
+                                        currentList.add(allList.get(j));
+                                        addNewMember(allList.get(j));
+                                    }
+                                }
+                            }
+                        }
+                        
+                        for (PPClass value1 : PPClass.values()) {
+                            if (value.equals(value1.toString())) {
+                                tableList.clear();
+                                currentList.clear();
+                                for (int j = 0; j<allList.size(); j++) {
+                                    if (allList.get(j).pp == value1) {
+                                        currentList.add(allList.get(j));
+                                        addNewMember(allList.get(j));
+                                    }
+                                }
+                            }
+                        }
+                        
+                        for (VNClass value1 : VNClass.values()) {
+                            if (value.equals(value1.toString())) {
+                                tableList.clear();
+                                currentList.clear();
+                                for (int j = 0; j<allList.size(); j++) {
+                                    if (allList.get(j).vn == value1) {
+                                        currentList.add(allList.get(j));
+                                        addNewMember(allList.get(j));
+                                    }
+                                }
                             }
                         }
                     }
-                    
-                    else if(value.equals("Nganh Thanh")) {
-                        tableList.clear();
-                        for(int i =0; i<allList.size(); i++) {
-                            if(allList.get(i).nganh == Doan.NThanh) {
-                                addNewMember(allList.get(i));
-                            }
-                        }
-                    }
-                    
-                    else if(value.equals("Thieu Nam")) {
-                        tableList.clear();
-                        for(int i =0; i<allList.size(); i++) {
-                            if(allList.get(i).nganh == Doan.TNam) {
-                                addNewMember(allList.get(i));
-                            }
-                        }
-                    }
-                    
-                    else if(value.equals("Thieu Nu")) {
-                        tableList.clear();
-                        for(int i =0; i<allList.size(); i++) {
-                            if(allList.get(i).nganh == Doan.TNu) {
-                                addNewMember(allList.get(i));
-                            }
-                        }
-                    }
-                    
-                    else if(value.equals("OV Nam")) {
-                        tableList.clear();
-                        for(int i =0; i<allList.size(); i++) {
-                            if(allList.get(i).nganh == Doan.OVNam) {
-                                addNewMember(allList.get(i));
-                            }
-                        }
-                    }
-                    
-                    else if(value.equals("OV Nu")) {
-                        tableList.clear();
-                        for(int i =0; i<allList.size(); i++) {
-                            if(allList.get(i).nganh == Doan.OVNu) {
-                                addNewMember(allList.get(i));
-                            }
-                        }
-                    }
-                    
-                    
-                   
             }
         });
     } 
@@ -202,27 +191,46 @@ public class MainController implements Initializable {
     } 
     
     
-    private void onCopyCSV(ActionEvent event) {
+    public void onCopyCSV(ActionEvent event){
         FileChooser fileChooser = new FileChooser();
-        File file;
-    
-        file = fileChooser.showOpenDialog(new Stage());
-        String currentDirectory;
-        File fileTest = new File(".");
-	currentDirectory = fileTest.getAbsolutePath();
-	System.out.println("Current working directory : "+currentDirectory);
-                
-        //Files.copy(source, target, REPLACE_EXISTING);
+        
+        File input;
+        input = fileChooser.showOpenDialog(new Stage());
+        
+        File output = new File("members.csv");
+        
+        try {
+            Files.copy(input.toPath(), output.toPath(), REPLACE_EXISTING);
+            loadCSV();
+        }  
+        catch (IOException e) {
+            
+        }
     }
     
     
     public void onExportList(ActionEvent event) throws IOException {
        
         File folder;
-        File file = new File("members.csv");
         DirectoryChooser dChooser = new DirectoryChooser();
         
         folder = dChooser.showDialog(new Stage());
+
+        File out = new File(folder.toString()+File.separator+"members.csv");
+        
+        BufferedWriter bw;
+        bw = new BufferedWriter(new FileWriter(out));
+        
+        for(int i =0 ; i <allList.size(); i++) {
+            String member = allList.get(i).firstName +  "," + allList.get(i).lastName + "," +  allList.get(i).englishName + "," + allList.get(i).phapDanh
+                + "," + allList.get(i).address + "," + allList.get(i).phoneNumber + "," + allList.get(i).DOB + "," + allList.get(i).nganh
+                + "," + allList.get(i).vn+ "," + allList.get(i).pp + "," + allList.get(i).school + "," + allList.get(i).year
+                + "," + allList.get(i).status;
+        
+            bw.write(member);
+            bw.newLine();
+            bw.flush();
+        }
                 
         /*if (file != null && folder != null  && folder.isDirectory()) {
             Files.copy(file.toPath(), folder.toPath(), REPLACE_EXISTING);
@@ -254,14 +262,14 @@ public class MainController implements Initializable {
         
         //nganh
         TreeItem<String> nganhItem= new TreeItem<>("Nganh");
-        
+
         TreeItem<String> huynh_truong = new TreeItem<>("Huynh Truong");
         TreeItem<String> nganh_thanh = new TreeItem<>("Nganh Thanh");
         TreeItem<String> thieu_nam = new TreeItem<>("Thieu Nam");
         TreeItem<String> thieu_nu = new TreeItem<>("Thieu Nu");
         TreeItem<String> OV_nam = new TreeItem<>("Oanh Vu Nam");
         TreeItem<String> OV_nu = new TreeItem<>("Oanh Vu Nu");
-        
+
         nganhItem.getChildren().addAll(huynh_truong, nganh_thanh, thieu_nam, thieu_nu, OV_nam, OV_nu);
         
         rootItem.getChildren().add(nganhItem);
@@ -274,8 +282,9 @@ public class MainController implements Initializable {
         TreeItem<String> lop_3 = new TreeItem<>("Lop 3");
         TreeItem<String> lop_4 = new TreeItem<>("Lop 4");
         TreeItem<String> lop_5 = new TreeItem<>("Lop 5");
+        TreeItem<String> none = new TreeItem<>("None");
         
-        VNItem.getChildren().addAll(lop_1, lop_2, lop_3, lop_4, lop_5);
+        VNItem.getChildren().addAll(lop_1, lop_2, lop_3, lop_4, lop_5, none);
         
         rootItem.getChildren().add(VNItem);
         
@@ -310,10 +319,13 @@ public class MainController implements Initializable {
     }
     
     
-    public void loadCSV() throws IOException{
-        allList = new LinkedList<>();
+    public void loadCSV() {
+        allList.clear();
+        currentList.clear();
+        tableList.clear();
        
         File file = new File("members.csv");
+        
         try (FileReader fr = new FileReader(file)) {
             BufferedReader br = new BufferedReader(fr);
             String line;
@@ -321,15 +333,18 @@ public class MainController implements Initializable {
             while((line = br.readLine()) != null) {
                 String[] split = line.split(",");
                 
-                Member member = new Member(split[0], split[1], split[2], split[3], split[4], split[5], split[6], (Doan)Doan.valueOf(split[7]), (VNClass)VNClass.valueOf(split[8]), (PPClass)PPClass.valueOf(split[9]), split[10], split[11], (Status)Status.valueOf(split[12]));
-                
+                Member member = new Member(split[0], split[1], split[2], split[3], split[4], split[5], split[6], 
+                        (Doan)Doan.valueOf(split[7]), (VNClass)VNClass.valueOf(split[8]), (PPClass)PPClass.valueOf(split[9]), split[10], split[11], (Status)Status.valueOf(split[12]));
+
                 allList.add(member);
-                
+                currentList.add(member);
                 addNewMember(member);
-                
                 System.out.println(line);
             }
         } 
+        catch (IOException e){
+            System.out.println("no members file");
+        }
     }
         
     public void setupTable() {
