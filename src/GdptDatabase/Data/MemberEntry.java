@@ -17,16 +17,16 @@ public class MemberEntry {
         public SimpleStringProperty englishName = new SimpleStringProperty();
         public SimpleStringProperty phapDanh = new SimpleStringProperty();
         public SimpleStringProperty contact = new SimpleStringProperty();
-        int id;
+        public Member me;
         
         
-        public MemberEntry(String fName, String lName, String eName, String pDanh, String cont, int id) { 
+        public MemberEntry(String fName, String lName, String eName, String pDanh, String cont, Member me) { 
             this.firstName.set(fName);
             this.lastName.set(lName);
             this.englishName.set(eName);
             this.phapDanh.set(pDanh);
             this.contact.set(cont);
-            this.id = id;
+            this.me = me;
         }
         
         public String getFirstName() {
@@ -49,7 +49,7 @@ public class MemberEntry {
             return contact.get();
         }
         
-        public int getID() {
-            return id;
+        public Member getMember() {
+            return me;
         }
     }

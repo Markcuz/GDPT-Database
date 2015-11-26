@@ -38,6 +38,7 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 /**
  *
@@ -49,7 +50,9 @@ public class MainController implements Initializable {
     @FXML
     Button addMemberButton;
     @FXML
-    Button exportListButton;
+    Button editMemberButton;
+    @FXML
+    Button removeMemberButton;
     @FXML
     Button searchButton;
     
@@ -71,10 +74,8 @@ public class MainController implements Initializable {
     @FXML
     ChoiceBox<String> searchType;
     
-    
     @FXML
     MenuBar menuBar;
-    
     
     //the type list
     @FXML
@@ -99,22 +100,28 @@ public class MainController implements Initializable {
     
     LinkedList<Member> allList = new LinkedList<>();
     LinkedList<Member> currentList = new LinkedList<>();
+    
+    int memberID;
 
     @Override
     public void initialize(URL url, ResourceBundle rb)  {
+        
+        setupSearchType();
+        setupTypeTree();
+        setupTable();
+        loadCSV();
+        
         typeTree.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
-
             @Override
             public void changed(ObservableValue observable, Object oldValue, Object newValue) {
                 String value = typeTree.getSelectionModel().getSelectedItem().getValue();
-                    System.out.println(value);
 
                     if (value.equals("All")) {
                         tableList.clear();
                         currentList.clear();
                         for(int i =0; i<allList.size(); i++) {
                             currentList.add(allList.get(i));
-                            addNewMember(allList.get(i));
+                            addToList(allList.get(i));
                         }
                     }
                      
@@ -126,7 +133,7 @@ public class MainController implements Initializable {
                                 for (int j = 0; j<allList.size(); j++) {
                                     if (allList.get(j).nganh == value1) {
                                         currentList.add(allList.get(j));
-                                        addNewMember(allList.get(j));
+                                        addToList(allList.get(j));
                                     }
                                 }
                             }
@@ -139,7 +146,7 @@ public class MainController implements Initializable {
                                 for (int j = 0; j<allList.size(); j++) {
                                     if (allList.get(j).pp == value1) {
                                         currentList.add(allList.get(j));
-                                        addNewMember(allList.get(j));
+                                        addToList(allList.get(j));
                                     }
                                 }
                             }
@@ -152,7 +159,7 @@ public class MainController implements Initializable {
                                 for (int j = 0; j<allList.size(); j++) {
                                     if (allList.get(j).vn == value1) {
                                         currentList.add(allList.get(j));
-                                        addNewMember(allList.get(j));
+                                        addToList(allList.get(j));
                                     }
                                 }
                             }
@@ -162,36 +169,107 @@ public class MainController implements Initializable {
         });
     } 
     
-    public void onAddMember(ActionEvent event) throws Exception{
-        System.out.println("Add pressed!");
-        
+    public void onAddMember(ActionEvent event){
         FXMLLoader loader = new FXMLLoader(getClass().getResource("AddMember.fxml"));
 
-        Pane pane = (Pane)loader.load();
+        try {
+            Pane pane = (Pane)loader.load();
+
+            AddMemberController controller = loader.getController();
+            controller.setMainWindow(this);
         
-        AddMemberController controller = loader.getController();
-        controller.setMainWindow(this);
+            Stage stage = new Stage();
         
-        Stage stage = new Stage();
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initOwner(addMemberButton.getScene().getWindow());
         
-        stage.initModality(Modality.WINDOW_MODAL);
-        stage.initOwner(addMemberButton.getScene().getWindow());
+            Scene scene = new Scene(pane);
         
-        Scene scene = new Scene(pane);
-        
-        stage.setScene(scene);
-        stage.setTitle("AddMember");
-        stage.show();
+            stage.setScene(scene);
+            stage.setTitle("Add Member");
+            stage.show();
+        }
+        catch (Exception e) {
+            System.out.println("Failed to open new Add Member window");
+        }
  
     }
     
-    public void addNewMember(Member member) {       
-        MemberEntry meEntry = new MemberEntry((String)member.firstName, (String)member.lastName, (String)member.englishName, (String)member.phapDanh, (String)member.phoneNumber, 0);
+    public void addToList(Member member) {    
+        
+        MemberEntry meEntry = new MemberEntry((String)member.firstName, (String)member.lastName, (String)member.englishName, (String)member.phapDanh, (String)member.phoneNumber, member);
         tableList.add(meEntry); 
     } 
     
     
-    public void onCopyCSV(ActionEvent event){
+    public void addNewMember(Member member) {
+        allList.add(member);
+        
+        String value = typeTree.getSelectionModel().getSelectedItem().getValue();
+        
+        if(value.equals(member.nganh.toString())) {
+            addToList(member);
+            currentList.add(member);
+        }
+        else if (value.equals(member.vn.toString())) {
+            addToList(member);
+            currentList.add(member);
+        }
+        else if (value.equals(member.pp.toString())) {
+            addToList(member);
+            currentList.add(member);
+        }
+        else if (value.equals("All")) {
+            addToList(member);
+            currentList.add(member);
+        }
+    }
+    
+    
+    public void onEditMember(ActionEvent event) {
+        
+    }
+    
+    public void onRemoveMember(ActionEvent event) {
+        
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("RemoveMember.fxml"));
+
+        try {
+            Pane pane = (Pane)loader.load();
+
+            RemoveMemberController controller = loader.getController();
+            controller.setMainWindow(this);
+        
+            Stage stage = new Stage();
+        
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initStyle(StageStyle.UNDECORATED);
+            stage.initOwner(removeMemberButton.getScene().getWindow());
+        
+            Scene scene = new Scene(pane);
+        
+            stage.setScene(scene);
+            stage.setTitle("Remove Member");
+            stage.show();
+        }
+        catch (Exception e) {
+            System.out.println("Failed to open new Remove Member window");
+        }
+    }
+    
+    public void removeMember() {
+        MemberEntry selected = nameTable.getSelectionModel().getSelectedItem();
+        
+        nameTable.getItems().remove(nameTable.getSelectionModel().getSelectedIndex());
+        allList.remove(selected.me);
+        currentList.remove(selected.me);
+        
+        //need to delete from file as well
+        
+        
+    }
+    
+    public void onImportCSV(ActionEvent event){
         FileChooser fileChooser = new FileChooser();
         
         File input;
@@ -206,10 +284,12 @@ public class MainController implements Initializable {
         catch (IOException e) {
             
         }
+        
+        System.out.println("Import Successful!");
     }
     
     
-    public void onExportList(ActionEvent event) throws IOException {
+    public void onExportCSV(ActionEvent event) {
        
         File folder;
         DirectoryChooser dChooser = new DirectoryChooser();
@@ -219,24 +299,25 @@ public class MainController implements Initializable {
         File out = new File(folder.toString()+File.separator+"members.csv");
         
         BufferedWriter bw;
-        bw = new BufferedWriter(new FileWriter(out));
+        try {
+            bw = new BufferedWriter(new FileWriter(out));
         
-        for(int i =0 ; i <allList.size(); i++) {
-            String member = allList.get(i).firstName +  "," + allList.get(i).lastName + "," +  allList.get(i).englishName + "," + allList.get(i).phapDanh
+            for(int i =0 ; i <allList.size(); i++) {
+                String member = allList.get(i).firstName +  "," + allList.get(i).lastName + "," +  allList.get(i).englishName + "," + allList.get(i).phapDanh
                 + "," + allList.get(i).address + "," + allList.get(i).phoneNumber + "," + allList.get(i).DOB + "," + allList.get(i).nganh
                 + "," + allList.get(i).vn+ "," + allList.get(i).pp + "," + allList.get(i).school + "," + allList.get(i).year
                 + "," + allList.get(i).status;
         
-            bw.write(member);
-            bw.newLine();
-            bw.flush();
+                bw.write(member);
+                bw.newLine();
+                bw.flush();
+            }
+            bw.close();
         }
-                
-        /*if (file != null && folder != null  && folder.isDirectory()) {
-            Files.copy(file.toPath(), folder.toPath(), REPLACE_EXISTING);
-        }*/
-        
-        System.out.println("Export pressed!");
+        catch (IOException e) {
+            
+        }
+        System.out.println("Export Successful!");
     }
     
     public void onSearch(ActionEvent event) {  
@@ -315,7 +396,7 @@ public class MainController implements Initializable {
         rootItem.getChildren().add(PPItem);
         
         typeTree.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        //typeTree.getSelectionModel().selectFirst();
+        typeTree.getSelectionModel().selectFirst();
     }
     
     
@@ -336,11 +417,11 @@ public class MainController implements Initializable {
                 Member member = new Member(split[0], split[1], split[2], split[3], split[4], split[5], split[6], 
                         (Doan)Doan.valueOf(split[7]), (VNClass)VNClass.valueOf(split[8]), (PPClass)PPClass.valueOf(split[9]), split[10], split[11], (Status)Status.valueOf(split[12]));
 
-                allList.add(member);
-                currentList.add(member);
                 addNewMember(member);
                 System.out.println(line);
             }
+            fr.close();
+            br.close();
         } 
         catch (IOException e){
             System.out.println("no members file");

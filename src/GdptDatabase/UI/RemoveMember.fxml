@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="120.0" prefWidth="160.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GdptDatabase.UI.RemoveMemberController">
+   <children>
+      <Button fx:id="removeYes" layoutX="27.0" layoutY="74.0" mnemonicParsing="false" onAction="#onRemoveYes" text="Yes" />
+      <Button fx:id="removeNo" layoutX="97.0" layoutY="74.0" mnemonicParsing="false" onAction="#onRemoveNo" text="No" />
+      <Label layoutX="38.0" layoutY="25.0" text="Are you sure?" />
+   </children>
+</AnchorPane>

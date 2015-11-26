@@ -11,7 +11,7 @@ package GdptDatabase.Data;
  */
 public class Groups {
     public enum Doan {
-        OVNam("OV Nam", "OVNam"), OVNu("OV Nu", "OVNu"), TNam("Thieu Nam", "TNam"), TNu("Thieu Nu", "TNu"), NThanh("Nganh Thanh", "NThanh"), Htr("Huynh Truong", "Htr");
+        OVNam("Oanh Vu Nam", "OVNam"), OVNu("Oanh Vu Nu", "OVNu"), TNam("Thieu Nam", "TNam"), TNu("Thieu Nu", "TNu"), NThanh("Nganh Thanh", "NThanh"), Htr("Huynh Truong", "Htr");
         
         public String label;
         public String type;

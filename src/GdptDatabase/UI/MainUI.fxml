@@ -25,7 +25,8 @@
                <MenuItem text="Open" />
                <MenuItem text="Save" />
                <MenuItem text="Save As" />
-               <MenuItem text="Import CSV" onAction="#onCopyCSV" />  
+               <MenuItem onAction="#onImportCSV" text="Import CSV" />  
+               <MenuItem onAction="#onExportCSV" text="Export CSV" />  
                <SeparatorMenuItem />
                <MenuItem text="Exit" />
             </items>
@@ -67,10 +68,9 @@
                   </TableView>
                   <HBox layoutX="34.0" layoutY="421.0" prefHeight="50.0" prefWidth="500.0" spacing="20.0">
                      <children>
-                        <Button mnemonicParsing="false" text="Edit Member" />
+                        <Button fx:id="editMemberButton" mnemonicParsing="false" text="Edit Member" />
                           <Button fx:id="addMemberButton" onAction="#onAddMember" text="Add Member" />
-                        <Button mnemonicParsing="false" text="Remove Member" />
-                        <Button fx:id="exportListButton" mnemonicParsing="false" onAction="#onExportList" text="Export List" />
+                        <Button fx:id="removeMemberButton" mnemonicParsing="false" onAction="#onRemoveMember" text="Remove Member" />
                      </children>
                      <padding>
                         <Insets left="10.0" top="10.0" />
