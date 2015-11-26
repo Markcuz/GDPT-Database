@@ -68,7 +68,7 @@
                   </TableView>
                   <HBox layoutX="34.0" layoutY="421.0" prefHeight="50.0" prefWidth="500.0" spacing="20.0">
                      <children>
-                        <Button fx:id="editMemberButton" mnemonicParsing="false" text="Edit Member" />
+                        <Button fx:id="editMemberButton" mnemonicParsing="false" onAction="#onEditMember" text="Edit Member" />
                           <Button fx:id="addMemberButton" onAction="#onAddMember" text="Add Member" />
                         <Button fx:id="removeMemberButton" mnemonicParsing="false" onAction="#onRemoveMember" text="Remove Member" />
                      </children>

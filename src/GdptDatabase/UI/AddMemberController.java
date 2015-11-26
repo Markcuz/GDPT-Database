@@ -8,11 +8,8 @@ package GdptDatabase.UI;
 import GdptDatabase.Data.Groups;
 import GdptDatabase.Data.Groups.Doan;
 import GdptDatabase.Data.Groups.PPClass;
-import static GdptDatabase.Data.Groups.PPClass.bacDinh;
 import GdptDatabase.Data.Groups.Status;
-import static GdptDatabase.Data.Groups.Status.Active;
 import GdptDatabase.Data.Groups.VNClass;
-import static GdptDatabase.Data.Groups.VNClass.lop1;
 import GdptDatabase.Data.Member;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -22,10 +19,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -89,7 +84,7 @@ public class AddMemberController implements Initializable{
     @FXML 
     protected void onFinishAddMember(ActionEvent event) throws IOException {        
         Member me = new Member(addFirstName.getText(), addLastName.getText(), addEnglishName.getText(), addPhapDanh.getText(), addAddress.getText(), 
-                addPhone.getText(), addDOB.getValue().toString(), (Doan)addDoan.getValue(), (VNClass)addVietNgu.getValue(), (PPClass)addPhatPhap.getValue(), 
+                addPhone.getText(), addDOB.getValue(), (Doan)addDoan.getValue(), (VNClass)addVietNgu.getValue(), (PPClass)addPhatPhap.getValue(), 
                 addSchool.getText(), addYear.getText(), (Status)addStatus.getValue());
         
         String member = addFirstName.getText() +  "," + addLastName.getText() + "," +  addEnglishName.getText() + "," + addPhapDanh.getText()

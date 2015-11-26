@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
@@ -195,8 +196,7 @@ public class MainController implements Initializable {
  
     }
     
-    public void addToList(Member member) {    
-        
+    public void addToList(Member member) {            
         MemberEntry meEntry = new MemberEntry((String)member.firstName, (String)member.lastName, (String)member.englishName, (String)member.phapDanh, (String)member.phoneNumber, member);
         tableList.add(meEntry); 
     } 
@@ -228,6 +228,31 @@ public class MainController implements Initializable {
     
     public void onEditMember(ActionEvent event) {
         
+        MemberEntry selected = nameTable.getSelectionModel().getSelectedItem();
+        
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("EditMember.fxml"));
+
+        try {
+            Pane pane = (Pane)loader.load();
+
+            EditMemberController controller = loader.getController();
+            controller.setMainWindow(this);
+            controller.setUpMember(selected.me);
+            
+            Stage stage = new Stage();
+        
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initOwner(editMemberButton.getScene().getWindow());
+        
+            Scene scene = new Scene(pane);
+        
+            stage.setScene(scene);
+            stage.setTitle("Edit Member");
+            stage.show();
+        }
+        catch (Exception e) {
+            System.out.println("Failed to open new Edit Member window");
+        }
     }
     
     public void onRemoveMember(ActionEvent event) {
@@ -257,7 +282,7 @@ public class MainController implements Initializable {
         }
     }
     
-    public void removeMember() {
+    public Member removeMember() {
         MemberEntry selected = nameTable.getSelectionModel().getSelectedItem();
         
         nameTable.getItems().remove(nameTable.getSelectionModel().getSelectedIndex());
@@ -267,6 +292,7 @@ public class MainController implements Initializable {
         //need to delete from file as well
         
         
+        return selected.me;
     }
     
     public void onImportCSV(ActionEvent event){
@@ -414,9 +440,9 @@ public class MainController implements Initializable {
             while((line = br.readLine()) != null) {
                 String[] split = line.split(",");
                 
-                Member member = new Member(split[0], split[1], split[2], split[3], split[4], split[5], split[6], 
+                Member member = new Member(split[0], split[1], split[2], split[3], split[4], split[5], LocalDate.parse(split[6]), 
                         (Doan)Doan.valueOf(split[7]), (VNClass)VNClass.valueOf(split[8]), (PPClass)PPClass.valueOf(split[9]), split[10], split[11], (Status)Status.valueOf(split[12]));
-
+                
                 addNewMember(member);
                 System.out.println(line);
             }
@@ -424,7 +450,7 @@ public class MainController implements Initializable {
             br.close();
         } 
         catch (IOException e){
-            System.out.println("no members file");
+            System.out.println("No members file");
         }
     }
         

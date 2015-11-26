@@ -5,6 +5,8 @@
  */
 package GdptDatabase.Data;
 
+import java.time.LocalDate;
+
 /**
  *
  * @author Markcuz
@@ -16,7 +18,7 @@ public class Member {
         public final String phapDanh;
         public final String address;
         public final String phoneNumber;
-        public final String DOB;
+        public final LocalDate DOB;
         public final Groups.Doan nganh;
         public final Groups.VNClass vn;
         public final Groups.PPClass pp;
@@ -24,7 +26,7 @@ public class Member {
         public final String year;
         public final Groups.Status status;  
 
-        public Member(String fName, String lName, String eName, String phapDanh, String add, String ph, String dob, Groups.Doan doan, Groups.VNClass vn, Groups.PPClass pp, String school, String year, Groups.Status stat) {
+        public Member(String fName, String lName, String eName, String phapDanh, String add, String ph, LocalDate dob, Groups.Doan doan, Groups.VNClass vn, Groups.PPClass pp, String school, String year, Groups.Status stat) {
             this.firstName = fName;
             this.lastName = lName;
             this.englishName = eName;

@@ -6,9 +6,42 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="GdptDatabase.UI.MainController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GdptDatabase.UI.EditMemberController">
    <children>
-      <Button layoutX="252.0" layoutY="166.0" mnemonicParsing="false" text="Button" />
+      <AnchorPane id="AnchorPane" layoutX="10.0" layoutY="10.0" prefHeight="400.0" prefWidth="600.0">
+         <children>
+            <Button fx:id="finishEditMemberButton" layoutX="456.0" layoutY="346.0" mnemonicParsing="false" onAction="#onFinishEditMember" text="Edit Member" />
+            <Label layoutX="254.0" layoutY="14.0" text="Edit Member" />
+            <Label layoutX="28.0" layoutY="62.0" text="First Name" />
+            <TextField fx:id="editFirstName" layoutX="126.0" layoutY="57.0" promptText="First Name" />
+            <Label layoutX="303.0" layoutY="62.0" text="Last Name" />
+            <TextField fx:id="editLastName" layoutX="386.0" layoutY="57.0" promptText="Last Name" />
+            <Label layoutX="28.0" layoutY="100.0" text="English Name" />
+            <TextField fx:id="editEnglishName" layoutX="126.0" layoutY="95.0" promptText="English Name" />
+            <Label layoutX="303.0" layoutY="100.0" text="Phap Danh" />
+            <TextField fx:id="editPhapDanh" layoutX="387.0" layoutY="95.0" promptText="Phap Danh" />
+            <Label layoutX="28.0" layoutY="136.0" text="Address" />
+            <TextField fx:id="editAddress" layoutX="126.0" layoutY="132.0" prefHeight="27.0" prefWidth="430.0" promptText="Address" />
+            <Label layoutX="29.0" layoutY="174.0" text="DOB" />
+            <Label layoutX="306.0" layoutY="174.0" text="Ph. No." />
+            <TextField fx:id="editPhone" layoutX="388.0" layoutY="169.0" promptText="Phone Number" />
+            <Label layoutX="32.0" layoutY="307.0" text="Viet Ngu" />
+            <ChoiceBox fx:id="editVietNgu" layoutX="126.0" layoutY="302.0" prefHeight="27.0" prefWidth="167.0" />
+            <Label layoutX="315.0" layoutY="307.0" text="Phat Phap" />
+            <ChoiceBox fx:id="editPhatPhap" layoutX="386.0" layoutY="302.0" prefHeight="27.0" prefWidth="167.0" />
+            <Label layoutX="29.0" layoutY="209.0" text="School" />
+            <DatePicker fx:id="editDOB" layoutX="126.0" layoutY="169.0" prefHeight="27.0" prefWidth="167.0" promptText="Date Of Birth" />
+            <TextField fx:id="editSchool" layoutX="126.0" layoutY="205.0" promptText="School/Uni" />
+            <Label layoutX="306.0" layoutY="209.0" text="Year/Course" />
+            <TextField fx:id="editYear" layoutX="389.0" layoutY="204.0" promptText="Year/Course" />
+            <Label layoutX="33.0" layoutY="264.0" text="Doan" />
+            <ChoiceBox fx:id="editDoan" layoutX="126.0" layoutY="259.0" prefHeight="27.0" prefWidth="167.0" />
+            <Label layoutX="32.0" layoutY="351.0" text="Status" />
+            <ChoiceBox fx:id="editStatus" layoutX="126.0" layoutY="346.0" prefHeight="27.0" prefWidth="167.0" />
+            <Label layoutX="316.0" layoutY="264.0" text="Image" />
+            <Button layoutX="386.0" layoutY="346.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="53.0" text="More" />
+            <Button fx:id="editImage" layoutX="389.0" layoutY="259.0" mnemonicParsing="false" onAction="#onAddImage" text="Choose Image" />
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>
