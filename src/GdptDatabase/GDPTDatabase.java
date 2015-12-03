@@ -24,14 +24,6 @@ public class GDPTDatabase extends Application {
 
         stage.setScene(new Scene((Pane)loader.load()));
         
-        /*
-        MainController controller = loader.getController();
-        
-        controller.setupSearchType();
-        controller.setupTypeTree();
-        controller.setupTable();
-        controller.loadCSV();
-        */
         stage.setTitle("GDPT Database");
         stage.show();
     }

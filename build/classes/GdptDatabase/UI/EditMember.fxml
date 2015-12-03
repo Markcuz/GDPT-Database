@@ -10,7 +10,7 @@
    <children>
       <AnchorPane id="AnchorPane" layoutX="10.0" layoutY="10.0" prefHeight="400.0" prefWidth="600.0">
          <children>
-            <Button fx:id="finishEditMemberButton" layoutX="456.0" layoutY="346.0" mnemonicParsing="false" onAction="#onFinishEditMember" text="Edit Member" />
+            <Button fx:id="finishEditMemberButton" layoutX="456.0" layoutY="346.0" mnemonicParsing="false" onAction="#onFinishEditMember" text="Apply" />
             <Label layoutX="254.0" layoutY="14.0" text="Edit Member" />
             <Label layoutX="28.0" layoutY="62.0" text="First Name" />
             <TextField fx:id="editFirstName" layoutX="126.0" layoutY="57.0" promptText="First Name" />
