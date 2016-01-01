@@ -5,6 +5,7 @@
  */
 package GdptDatabase.UI;
 
+import GdptDatabase.Data.Groups;
 import GdptDatabase.Data.Groups.Doan;
 import GdptDatabase.Data.Member;
 import GdptDatabase.Data.MemberEntry;
@@ -21,8 +22,11 @@ import java.net.URL;
 import java.nio.file.Files;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -54,6 +58,8 @@ public class MainController implements Initializable {
     Button editMemberButton;
     @FXML
     Button removeMemberButton;
+    @FXML 
+    Button setMembersButton;
     @FXML
     Button searchButton;
     
@@ -116,6 +122,7 @@ public class MainController implements Initializable {
             @Override
             public void changed(ObservableValue observable, Object oldValue, Object newValue) {
                 String value = typeTree.getSelectionModel().getSelectedItem().getValue();
+                searchText.clear();
 
                     if (value.equals("All")) {
                         tableList.clear();
@@ -201,7 +208,6 @@ public class MainController implements Initializable {
         tableList.add(meEntry); 
     } 
     
-    
     public void addNewMember(Member member) {
         allList.add(member);
         
@@ -224,8 +230,7 @@ public class MainController implements Initializable {
             currentList.add(member);
         }
     }
-    
-    
+      
     public void onEditMember(ActionEvent event) {
         
         MemberEntry selected = nameTable.getSelectionModel().getSelectedItem();
@@ -286,14 +291,64 @@ public class MainController implements Initializable {
         MemberEntry selected = nameTable.getSelectionModel().getSelectedItem();
         
         nameTable.getItems().remove(nameTable.getSelectionModel().getSelectedIndex());
+
         allList.remove(selected.me);
         currentList.remove(selected.me);
         
-        //need to delete from file as well
+        File file = new File("members.csv");
         
+        BufferedWriter bw;
+        try {
+            bw = new BufferedWriter(new FileWriter(file));
         
+            if(file.delete()) {
+                for(int i =0; i<allList.size(); i++) {
+                    Member me = allList.get(i);
+                    String member = me.firstName +  "," + me.lastName + "," +  me.englishName + "," + me.phapDanh
+                        + "," + me.address + "," + me.phoneNumber + "," + me.DOB.format(DateTimeFormatter.ISO_DATE) + "," + me.nganh.toType()
+                        + "," + me.vn.toType() + "," + me.pp.toType() + "," + me.school + "," + me.year
+                        + "," + me.status.toType();
+                
+                    bw.write(member);
+                    bw.newLine();  
+                }       
+            }
+            bw.flush();
+        } 
+        catch (IOException ex) {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return selected.me;
     }
+    
+    /*
+    public void onSetMembers(ActionEvent event) {
+        
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("RemoveMember.fxml"));
+
+        try {
+            Pane pane = (Pane)loader.load();
+
+            SetMembersController controller = loader.getController();
+            controller.setMainWindow(this);
+        
+            Stage stage = new Stage();
+        
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initStyle(StageStyle.UNDECORATED);
+            stage.initOwner(setMembersButton.getScene().getWindow());
+        
+            Scene scene = new Scene(pane);
+        
+            stage.setScene(scene);
+            stage.setTitle("Set Members");
+            stage.show();
+        }
+        catch (Exception e) {
+            System.out.println("Failed to open new Remove Member window");
+        }
+    }
+    */
     
     public void onImportCSV(ActionEvent event){
         FileChooser fileChooser = new FileChooser();
@@ -313,8 +368,7 @@ public class MainController implements Initializable {
         
         System.out.println("Import Successful!");
     }
-    
-    
+       
     public void onExportCSV(ActionEvent event) {
        
         File folder;
@@ -330,7 +384,7 @@ public class MainController implements Initializable {
         
             for(int i =0 ; i <allList.size(); i++) {
                 String member = allList.get(i).firstName +  "," + allList.get(i).lastName + "," +  allList.get(i).englishName + "," + allList.get(i).phapDanh
-                + "," + allList.get(i).address + "," + allList.get(i).phoneNumber + "," + allList.get(i).DOB + "," + allList.get(i).nganh
+                + "," + allList.get(i).address + "," + allList.get(i).phoneNumber + "," + allList.get(i).DOB.format(DateTimeFormatter.ISO_DATE) + "," + allList.get(i).nganh
                 + "," + allList.get(i).vn+ "," + allList.get(i).pp + "," + allList.get(i).school + "," + allList.get(i).year
                 + "," + allList.get(i).status;
         
@@ -347,10 +401,49 @@ public class MainController implements Initializable {
     }
     
     public void onSearch(ActionEvent event) {  
-        System.out.println("Search pressed!");
         String type = searchType.getValue();
-        System.out.println(type);  
+
+        tableList.clear();
+        
+        for (int j = 0; j<currentList.size(); j++) {
+            switch(type) {
+                case "First Name":
+                    if (!currentList.get(j).firstName.toLowerCase().contains(searchText.getText().toLowerCase())) {
+                       // currentList.remove(j);
+                    }
+                    else {
+                        addToList(currentList.get(j));
+                    }
+                    break;
+                case "Last Name":
+                    if (!currentList.get(j).lastName.toLowerCase().contains(searchText.getText().toLowerCase())) {
+                        //currentList.remove(j);
+                    }
+                    else {
+                        addToList(currentList.get(j));
+                    }
+                    break; 
+                case "Phap Danh":
+                    if (!currentList.get(j).phapDanh.toLowerCase().contains(searchText.getText().toLowerCase())) {
+                        //currentList.remove(j);
+                    }
+                    else {
+                        addToList(currentList.get(j));
+                    }
+                    break;
+            }
+        }  
     }   
+    
+    public void onClear(ActionEvent event) {
+        searchText.clear();
+        
+        tableList.clear();
+        
+        for (int j = 0; j<currentList.size(); j++) {
+            addToList(currentList.get(j));
+        }
+    } 
     
     public void setupSearchType() {
         searchType.getItems().clear();
@@ -424,7 +517,6 @@ public class MainController implements Initializable {
         typeTree.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         typeTree.getSelectionModel().selectFirst();
     }
-    
     
     public void loadCSV() {
         allList.clear();

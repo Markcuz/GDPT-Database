@@ -69,8 +69,9 @@
                   <HBox layoutX="34.0" layoutY="421.0" prefHeight="50.0" prefWidth="500.0" spacing="20.0">
                      <children>
                         <Button fx:id="editMemberButton" mnemonicParsing="false" onAction="#onEditMember" text="Edit Member" />
-                          <Button fx:id="addMemberButton" onAction="#onAddMember" text="Add Member" />
+                        <Button fx:id="addMemberButton" onAction="#onAddMember" text="Add Member" />
                         <Button fx:id="removeMemberButton" mnemonicParsing="false" onAction="#onRemoveMember" text="Remove Member" />
+                        <Button fx:id="setMembersButton" mnemonicParsing="false" text = "Set Members" /> 
                      </children>
                      <padding>
                         <Insets left="10.0" top="10.0" />
@@ -81,7 +82,7 @@
                         <TextField fx:id="searchText" prefHeight="27.0" prefWidth="231.0" />
                         <ChoiceBox fx:id="searchType" prefWidth="150.0" />
                         <Button fx:id="searchButton" mnemonicParsing="false" onAction="#onSearch" text="Search" />
-                        <Button mnemonicParsing="false" text="Clear" />
+                        <Button fx:id="clearButton" mnemonicParsing="false" onAction="#onClear" text="Clear" />
                      </children>
                      <padding>
                         <Insets top="10.0" />
